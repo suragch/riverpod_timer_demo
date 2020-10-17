@@ -34,13 +34,16 @@ class TimerNotifier extends StateNotifier<TimerModel> {
 
   void _startTimer() {
     _tickerSubscription?.cancel();
+
     _tickerSubscription =
         _ticker.tick(ticks: _initialDuration).listen((duration) {
       state = TimerModel(_durationString(duration), ButtonState.started);
     });
+
     _tickerSubscription.onDone(() {
       state = TimerModel(state.timeLeft, ButtonState.finished);
     });
+    
     state = TimerModel(_durationString(_initialDuration), ButtonState.started);
   }
 
