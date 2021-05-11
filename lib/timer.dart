@@ -11,7 +11,7 @@ class TimerNotifier extends StateNotifier<TimerModel> {
   );
 
   final Ticker _ticker = Ticker();
-  StreamSubscription<int> _tickerSubscription;
+  StreamSubscription<int>? _tickerSubscription;
 
   static String _durationString(int duration) {
     final minutes = ((duration / 60) % 60).floor().toString().padLeft(2, '0');
@@ -40,10 +40,10 @@ class TimerNotifier extends StateNotifier<TimerModel> {
       state = TimerModel(_durationString(duration), ButtonState.started);
     });
 
-    _tickerSubscription.onDone(() {
+    _tickerSubscription?.onDone(() {
       state = TimerModel(state.timeLeft, ButtonState.finished);
     });
-    
+
     state = TimerModel(_durationString(_initialDuration), ButtonState.started);
   }
 
@@ -65,7 +65,7 @@ class TimerNotifier extends StateNotifier<TimerModel> {
 }
 
 class Ticker {
-  Stream<int> tick({int ticks}) {
+  Stream<int> tick({required int ticks}) {
     return Stream.periodic(
       Duration(seconds: 1),
       (x) => ticks - x - 1,
