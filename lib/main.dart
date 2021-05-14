@@ -10,7 +10,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,12 +40,12 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-final timerProvider = StateNotifierProvider<TimerNotifier>(
+final timerProvider = StateNotifierProvider<TimerNotifier, TimerModel>(
   (ref) => TimerNotifier(),
 );
 
 final _timeLeftProvider = Provider<String>((ref) {
-  return ref.watch(timerProvider.state).timeLeft;
+  return ref.watch(timerProvider).timeLeft;
 });
 
 final timeLeftProvider = Provider<String>((ref) {
@@ -53,7 +53,7 @@ final timeLeftProvider = Provider<String>((ref) {
 });
 
 class TimerTextWidget extends HookWidget {
-  const TimerTextWidget({Key key}) : super(key: key);
+  const TimerTextWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class TimerTextWidget extends HookWidget {
 }
 
 final _buttonState = Provider<ButtonState>((ref) {
-  return ref.watch(timerProvider.state).buttonState;
+  return ref.watch(timerProvider).buttonState;
 });
 
 final buttonProvider = Provider<ButtonState>((ref) {
@@ -75,7 +75,7 @@ final buttonProvider = Provider<ButtonState>((ref) {
 });
 
 class ButtonsContainer extends HookWidget {
-  const ButtonsContainer({Key key}) : super(key: key);
+  const ButtonsContainer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -106,12 +106,12 @@ class ButtonsContainer extends HookWidget {
 }
 
 class StartButton extends StatelessWidget {
-  const StartButton({Key key}) : super(key: key);
+  const StartButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        context.read(timerProvider).start();
+        context.read(timerProvider.notifier).start();
       },
       child: Icon(Icons.play_arrow),
     );
@@ -119,12 +119,12 @@ class StartButton extends StatelessWidget {
 }
 
 class PauseButton extends StatelessWidget {
-  const PauseButton({Key key}) : super(key: key);
+  const PauseButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        context.read(timerProvider).pause();
+        context.read(timerProvider.notifier).pause();
       },
       child: Icon(Icons.pause),
     );
@@ -132,12 +132,12 @@ class PauseButton extends StatelessWidget {
 }
 
 class ResetButton extends StatelessWidget {
-  const ResetButton({Key key}) : super(key: key);
+  const ResetButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        context.read(timerProvider).reset();
+        context.read(timerProvider.notifier).reset();
       },
       child: Icon(Icons.replay),
     );
